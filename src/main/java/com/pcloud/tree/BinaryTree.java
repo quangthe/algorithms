@@ -147,6 +147,24 @@ public class BinaryTree {
         return currentNode.data;
     }
 
+    public Node findMinimumNodeGreaterThan(int v) {
+        Node currentNode = getRoot();
+        int delta = Integer.MAX_VALUE;
+        Node result = null;
+
+        while (currentNode != null) {
+            if (currentNode.data > v && currentNode.data - v < delta) {
+                delta = currentNode.data - v;
+                result = currentNode;
+
+                currentNode = currentNode.left;
+            } else {
+                currentNode = currentNode.right;
+            }
+        }
+        return result;
+    }
+
     /**
      * Prints the node values in the "inorder" order.
      * Uses a recursive helper to do the traversal.

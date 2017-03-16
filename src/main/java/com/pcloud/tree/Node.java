@@ -8,13 +8,18 @@ package com.pcloud.tree;
  * storage; it does not have any methods.
  */
 public class Node {
-    Node left;
-    Node right;
-    int data;
+    public Node left;
+    public Node right;
+    public int data;
 
     public Node(int newData) {
         left = null;
         right = null;
         data = newData;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("node[ %d ]", data);
     }
 }

@@ -1,7 +1,4 @@
-package com.pcloud;
-
-import com.pcloud.tree.BinaryTree;
-import com.pcloud.tree.BinaryTreePrinter;
+package com.pcloud.tree;
 
 /**
  * Hello world!
@@ -10,7 +7,7 @@ public class DemoBinaryTreeApp {
     public static void main(String[] args) {
 
         BinaryTree tree = new BinaryTree();
-        int[] data = new int[] {4, 1, 3, 2, 5, 8, 0, 9, 7};
+        int[] data = new int[] {4, 1, 3, 2, 5, 8, 0, 9, 7, 34, 89};
 
         for (int i = 0; i < data.length; i++) {
             tree.insert(data[i]);
@@ -21,8 +18,8 @@ public class DemoBinaryTreeApp {
 
         BinaryTreePrinter.printNode(tree.getRoot());
 
-        tree.mirror();
 
-        BinaryTreePrinter.printNode(tree.getRoot());
+        Node node = tree.findMinimumNodeGreaterThan(20);
+        System.out.printf("Minimum node greater than %d is %s\n", 20, node);
     }
 }
