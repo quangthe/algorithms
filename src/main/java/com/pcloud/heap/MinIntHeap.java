@@ -7,6 +7,32 @@ public class MinIntHeap {
     private int size = 0;
     private int[] items = new int[capacity];
 
+    public void convertToMaxHeap() {
+        for (int i = size - 1; i >= 0; i--) {
+            maxifyHeap(i);
+        }
+    }
+
+    private void maxifyHeap(int index) {
+        int leftIndex = getLeftChildIndex(index);
+        int rightIndex = getRightChildIndex(index);
+        int largest = index;
+
+        if (hasLeftChild(index) && items[leftIndex] > items[largest]) {
+            largest = leftIndex;
+        }
+        if (hasRightChild(index) && items[rightIndex] > items[largest]) {
+            largest = rightIndex;
+        }
+
+        if (largest != index) {
+            swap(largest, index);
+
+            // move up
+            maxifyHeap(largest);
+        }
+    }
+
     public int peek() {
         if (size == 0) {
             throw new IllegalStateException("Heap is empty");
@@ -79,6 +105,14 @@ public class MinIntHeap {
         }
     }
 
+    public void printHeap() {
+        System.out.print("[");
+        for (int i = 0; i < size; i++) {
+            System.out.printf("%d ", items[i]);
+        }
+        System.out.printf("]\n");
+    }
+
     private int getLeftChildIndex(int parentIndex) {
         return parentIndex * 2 + 1;
     }
@@ -100,6 +134,7 @@ public class MinIntHeap {
     }
 
     private boolean hasParent(int index) {
+        if (index == 0) return false;
         return getParentIndex(index) >= 0;
     }
 

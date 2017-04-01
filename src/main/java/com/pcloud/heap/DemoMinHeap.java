@@ -11,6 +11,13 @@ public class DemoMinHeap {
         for (int i = 0; i < a.length; i++) {
             heap.add(a[i]);
         }
+        System.out.println("Min Heap");
+        heap.printHeap();
+
+//        heap.convertToMaxHeap();
+//
+//        System.out.println("Convert to Max Heap");
+//        heap.printHeap();
 
         while (heap.getSize() > 0) {
             int min = heap.poll();
