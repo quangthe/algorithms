@@ -76,6 +76,132 @@ public class BinaryTree {
         return node; // in any case, return the new pointer to the caller
     }
 
+    public void delete(int value) {
+        Node deletedNode = findNode(value);
+
+        if (deletedNode == null) {
+            System.out.printf("%d is not found\n", value);
+            return;
+        }
+        Node parent = findParent(deletedNode);
+
+        // deleted node is leaf child
+        if (deletedNode.left == null && deletedNode.right == null) {
+            System.out.printf("Delete %s is LEAF node\n", deletedNode);
+            if (parent != null) {
+                if (parent.left == deletedNode) {
+                    parent.left = null;
+                } else {
+                    parent.right = null;
+                }
+            } else {
+                root = null;
+            }
+            return;
+        } else if (!(deletedNode.left != null && deletedNode.right != null)) {
+            System.out.printf("Deleted %s has one child\n", deletedNode);
+            Node child;
+            if (deletedNode.left != null) {
+                child = deletedNode.left;
+                deletedNode.left = null;
+            }
+            else {
+                child = deletedNode.right;
+                deletedNode.right = null;
+            }
+
+            if (parent != null) {
+                if (parent.left == deletedNode) {
+                    parent.left = child;
+                } else {
+                    parent.right = child;
+                }
+            } else {
+                root = child;
+            }
+            return;
+        }
+
+
+        System.out.printf("Deleted %s has two children\n", deletedNode);
+
+        // find the replacement node and its parent in left tree
+        Node parentOfReplacementNode = deletedNode;
+        Node replacementNode = deletedNode.left;
+
+        while (replacementNode != null && replacementNode.right != null) {
+            parentOfReplacementNode = replacementNode;
+            replacementNode = replacementNode.right;
+        }
+
+        //  parent of the node being deleted --> the replacement node.
+        if (parent != null) {
+            if (parent.left == deletedNode) {
+                parent.left = replacementNode;
+            } else {
+                parent.right = replacementNode;
+            }
+        } else {
+            // root node
+            root = replacementNode;
+        }
+
+        if (parentOfReplacementNode.left == replacementNode) {
+            parentOfReplacementNode.left = replacementNode.left;
+        } else {
+            parentOfReplacementNode.right = replacementNode.left;
+        }
+
+        if (replacementNode.right != deletedNode.right) {
+            replacementNode.right = deletedNode.right;
+        }
+        if (replacementNode.left != deletedNode.left) {
+            replacementNode.left = deletedNode.left;
+        }
+
+        deletedNode.left = null;
+        deletedNode.right = null;
+    }
+
+    public Node findParent(Node node) {
+        if (root == node) {
+            return null;
+        }
+        return findParent(root, node);
+    }
+
+    private Node findParent(Node current, Node node) {
+        if (current == null) {
+            return null;
+        }
+        if (current.left == node || current.right == node) {
+            return current;
+        }
+        Node parent = findParent(current.left, node);
+        if (parent != null) {
+            return parent;
+        }
+        return findParent(current.right, node);
+    }
+
+    public Node findNode(int data) {
+        return findNode(root, data);
+    }
+
+    private Node findNode(Node node, int data) {
+        if (node == null) {
+            return null;
+        }
+
+        if (data == node.data) {
+            return node;
+        } else if (data < node.data) {
+            return findNode(node.left, data);
+        } else {
+            return findNode(node.right, data);
+        }
+    }
+
     /**
      * Returns the number of nodes in the tree.
      * Uses a recursive helper that recurs
